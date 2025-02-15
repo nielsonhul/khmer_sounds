@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Flash Experience</title>
-  <script src="ruffle.js"></script> <!-- Ensure the filename matches your downloaded file -->
+  <title>Interactive Flash Content</title>
+  <!-- Optionally, you can add configuration if needed -->
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    // You can usually omit wasmPath if the wasm files are auto-discovered,
+    // but if needed, you might try:
+    // window.RufflePlayer.config = { wasmPath: "./" };
+  </script>
+  <script src="ruffle.js"></script>
 </head>
 <body>
-  <!-- Embed your main SWF file -->
   <object data="home.swf" type="application/x-shockwave-flash">
-    <p>Your browser does not support Flash content.</p>
+    <p>Flash content not available. Please use a modern browser.</p>
   </object>
 </body>
 </html>
+
