@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Flash Content</title>
-  <!-- Optionally, you can add configuration if needed -->
+  <title>Interactive Khmer Letters</title>
+  <!-- Ruffle configuration -->
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
-    // You can usually omit wasmPath if the wasm files are auto-discovered,
-    // but if needed, you might try:
-    // window.RufflePlayer.config = { wasmPath: "./" };
+    window.RufflePlayer.config = {
+      // Specify the path to your wasm file(s) if necessary.
+      // If your wasm files are in the root and Ruffle auto-detects them, you can omit this.
+      wasmPath: "ruffle.wasm"
+    };
   </script>
+  <!-- Load Ruffle -->
   <script src="ruffle.js"></script>
 </head>
 <body>
-  <object data="home.swf" type="application/x-shockwave-flash">
-    <p>Flash content not available. Please use a modern browser.</p>
+  <!-- Embed the new interactive SWF (bypassing home.swf) -->
+  <object data="Consonants.swf" type="application/x-shockwave-flash" width="800" height="600">
+    <p>Your browser does not support Flash content.</p>
   </object>
 </body>
 </html>
-
