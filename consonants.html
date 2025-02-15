@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Consonants Interactive Page</title>
+  <!-- Optional: Ruffle configuration can be placed here if needed -->
+  <script>
+    // If you need to set a custom path for WASM, do it here:
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+      // For example, if you need to specify a wasmPath:
+      // wasmPath: "ruffle.wasm"
+    };
+  </script>
+  <!-- Load Ruffle (make sure ruffle.js is in your root or adjust the path accordingly) -->
+  <script src="ruffle.js"></script>
+</head>
+<body>
+  <!-- Embed the SWF file -->
+  <object data="Consonants.swf" type="application/x-shockwave-flash" width="800" height="600">
+    <p>Flash content not available. Please use a modern browser.</p>
+  </object>
+</body>
+</html>
