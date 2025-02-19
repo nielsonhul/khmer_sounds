@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Interactive Khmer Letters</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Ruffle configuration -->
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
     window.RufflePlayer.config = {
       // Specify the path to your wasm file(s) if necessary.
-      // If your wasm files are in the root and Ruffle auto-detects them, you can omit this.
       wasmPath: "ruffle.wasm"
     };
   </script>
@@ -17,8 +17,43 @@
 </head>
 <body>
   <!-- Embed the new interactive SWF (bypassing home.swf) -->
-  <object data="Consonants.swf" type="application/x-shockwave-flash" width="800" height="600">
+  <object id="ruffle-object" data="Consonants.swf" type="application/x-shockwave-flash" width="800" height="600">
     <p>Your browser does not support Flash content.</p>
   </object>
+
+  <!-- Touch-to-mouse event conversion script -->
+  <script>
+    // Get the SWF object
+    const ruffleObject = document.getElementById("ruffle-object");
+
+    // Function to simulate a mouse event based on touch event data
+    function simulateMouseEvent(event, mouseEventType) {
+      const touch = event.changedTouches[0];
+      const simulatedEvent = new MouseEvent(mouseEventType, {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        detail: 1,
+        screenX: touch.screenX,
+        screenY: touch.screenY,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        button: 0
+      });
+      event.preventDefault();
+      ruffleObject.dispatchEvent(simulatedEvent);
+    }
+
+    // Attach touch event listeners to the SWF object
+    ruffleObject.addEventListener("touchstart", function(e) {
+      simulateMouseEvent(e, "mousedown");
+    });
+    ruffleObject.addEventListener("touchend", function(e) {
+      simulateMouseEvent(e, "mouseup");
+    });
+    ruffleObject.addEventListener("touchmove", function(e) {
+      simulateMouseEvent(e, "mousemove");
+    });
+  </script>
 </body>
 </html>
