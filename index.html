@@ -8,7 +8,6 @@
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
     window.RufflePlayer.config = {
-      // Specify the path to your wasm file(s) if necessary.
       wasmPath: "ruffle.wasm"
     };
   </script>
@@ -16,20 +15,16 @@
   <script src="ruffle.js"></script>
 </head>
 <body>
-  <!-- Embed the new interactive SWF (bypassing home.swf) -->
+  <!-- SWF placeholder -->
   <object id="ruffle-object" data="Consonants.swf" type="application/x-shockwave-flash" width="800" height="600">
     <p>Your browser does not support Flash content.</p>
   </object>
 
-  <!-- Touch-to-mouse event conversion script -->
+  <!-- Touch-to-mouse event conversion -->
   <script>
-    // Get the SWF object
-    const ruffleObject = document.getElementById("ruffle-object");
-
-    // Function to simulate a mouse event based on touch event data
-    function simulateMouseEvent(event, mouseEventType) {
+    function simulateMouseEvent(event, type, target) {
       const touch = event.changedTouches[0];
-      const simulatedEvent = new MouseEvent(mouseEventType, {
+      const simulatedEvent = new MouseEvent(type, {
         bubbles: true,
         cancelable: true,
         view: window,
@@ -41,18 +36,22 @@
         button: 0
       });
       event.preventDefault();
-      ruffleObject.dispatchEvent(simulatedEvent);
+      target.dispatchEvent(simulatedEvent);
     }
 
-    // Attach touch event listeners to the SWF object
-    ruffleObject.addEventListener("touchstart", function(e) {
-      simulateMouseEvent(e, "mousedown");
-    });
-    ruffleObject.addEventListener("touchend", function(e) {
-      simulateMouseEvent(e, "mouseup");
-    });
-    ruffleObject.addEventListener("touchmove", function(e) {
-      simulateMouseEvent(e, "mousemove");
+    // Wait until Ruffle injects the <ruffle-player>
+    window.addEventListener("load", () => {
+      const observer = new MutationObserver(() => {
+        const player = document.querySelector("ruffle-player");
+        if (player) {
+          // Map touch → mouse
+          player.addEventListener("touchstart", e => simulateMouseEvent(e, "mousedown", player));
+          player.addEventListener("touchend",   e => simulateMouseEvent(e, "mouseup",   player));
+          player.addEventListener("touchmove",  e => simulateMouseEvent(e, "mousemove", player));
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
     });
   </script>
 </body>
